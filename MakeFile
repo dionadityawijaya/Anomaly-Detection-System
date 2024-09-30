@@ -1,0 +1,32 @@
+# Compiler and flags
+CXX = g++
+CXXFLAGS = -std=c++17 -Iinclude
+LDFLAGS = -lgtest -lgtest_main -pthread
+SRC_DIR = src
+BUILD_DIR = build
+TEST_DIR = tests
+
+# Target executable
+TARGET = a.exe
+TEST_TARGET = test.exe
+
+# Source files
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+TEST_FILES = $(wildcard $(TEST_DIR)/*.cpp)
+
+# Build the main executable
+all: $(TARGET)
+
+$(TARGET): $(SRC_FILES)
+	$(CXX) $(CXXFLAGS) $(SRC_FILES) -o $(TARGET)
+
+# Build and run tests
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
+
+$(TEST_TARGET): $(SRC_FILES) $(TEST_FILES)
+	$(CXX) $(CXXFLAGS) $(SRC_FILES) $(TEST_FILES) $(LDFLAGS) -o $(TEST_TARGET)
+
+# Clean build files
+clean:
+	rm -f $(TARGET) $(TEST_TARGET)
